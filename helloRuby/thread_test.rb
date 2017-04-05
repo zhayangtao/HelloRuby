@@ -23,3 +23,4 @@ class Fixnum
   end
 end
 puts 8.factorial
+
