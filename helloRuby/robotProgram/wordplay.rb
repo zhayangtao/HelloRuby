@@ -1,4 +1,10 @@
 class Wordplay
+  def self.best_sentence(sentences, desired_words)
+    ranked_sentences = sentences.sort_by { |s|
+      s.words.length - (s.downcase.words - desired_words).length
+    }
+    ranked_sentences.last
+  end
   def self.switch_prononus(text)
     text.gsub(/\b(I am|You are|I|You|Your|My)\b/i) do |prononu|
       case prononu.downcase
