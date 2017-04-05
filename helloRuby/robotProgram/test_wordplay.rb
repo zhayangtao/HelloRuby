@@ -20,7 +20,7 @@ class TestWordplay < Test::Unit::TestCase
                                         %w{test great this}))
   end
 
-  def test_basic_pronouns
+  def test_basic_pronouns1512
     assert_equal('i am a robot', Wordplay.switch_prononus('you are a robot'))
   end
 
