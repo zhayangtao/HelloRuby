@@ -1,9 +1,10 @@
 require 'yaml'
-require 'E:/workspaceForRubyMine/helloRuby/robotProgram/wordplay'
+require 'E:/workspaceForRubyMine/robotProgram/wordplay'
 class Bot
   attr_reader :name
+
   def initialize(options)
-    @name = options[:name]||"Unnamed Bot"
+    @name = options[:name] || 'Unnamed Bot'
     begin
       @data = YAML.load(File.read(options[:data_file]))
     rescue
@@ -12,7 +13,7 @@ class Bot
   end
 
   def greeting
-   random_response :greeting
+    random_response :greeting
   end
 
   def farewell
@@ -20,22 +21,25 @@ class Bot
   end
 
   def response_to(input)
-    prepared_input = preprocess (input).downcase
-    sentence = best_sentence(prepared_input)
-    responses = possible_responses(sentence)
+    prepared_input = preprocess input.downcase
+    sentence = best_sentence prepared_input
+    resersed_sentence = Wordplay.switch_prononus sentence
+    responses = possible_responses sentence
+    responses[rand(responses.length)]
   end
 
   private
   def random_response(key)
     random_index = rand(@data[:responses][key].length)
-    @data[:responses][key][random_index].gsub(/\[name]/, @name)
+    @data[:responses][key][random_index].gsub(/\[name\]/, @name)
   end
 
   def preprocess(input)
     perform_substitutions input
   end
+
   def perform_substitutions(input)
-    @data[:presubs].each{|s| input.gsub!(s[0],s[1])}
+    @data[:presubs].each { |s| input.gsub!(s[0], s[1]) }
     input
   end
 
@@ -51,8 +55,15 @@ class Bot
     @data[:responses].keys.each do |pattern|
       next unless pattern.is_a?(String)
 
-      if sentence.match('\b' + pattern.gsub(/\*/,'') + '\b')
-        responses << @data[:responses][pattern]
+      if sentence.match('\b' + pattern.gsub(/\*/, '') + '\b')
+        if pattern.include?('*')
+          responses << @data[:responses][pattern].collect do |phrase|
+            matching_section = sentence.sub(/^.*#{pattern}\s+/, '')
+            phrase.sub('*', Wordplay.switch_prononus(matching_section))
+          end
+        else
+          responses << @data[:responses][pattern]
+        end
       end
     end
 

@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'E:/workspaceForRubyMine/helloRuby/robotProgram/wordplay'
+require 'E:/workspaceForRubyMine/robotProgram/wordplay'
 class TestWordplay < Test::Unit::TestCase
   def test_sentences
     assert_equal(['a', 'b', 'c d', 'e f g'], 'a.b.c d.e f g.'.sentences)
