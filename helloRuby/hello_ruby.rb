@@ -69,15 +69,18 @@ end
   %w{a e i o u}
 
 end
+
 def each_vowel(&code_block)
-  %w{a e i o u}.each{|vowel| code_block.call(vowel)}
+  %w{a e i o u}.each {|vowel| code_block.call(vowel)}
 end
-each_vowel{|vowel| puts vowel}
+
+each_vowel {|vowel| puts vowel}
 
 def each_vowel
-  %w{a e i o u}.each{ |vowel| yield vowel}
+  %w{a e i o u}.each {|vowel| yield vowel}
 end
-each_vowel{|vowel| puts vowel}
+
+each_vowel {|vowel| puts vowel}
 
 =begin
 text = ""
@@ -129,3 +132,7 @@ key_words = words.select {|word| !stop_words.include?(word)}
 puts key_words.join(' ')
 
 ((key_words.length.to_f / words.length.to_f) * 100).to_i
+
+10.times do
+  print "hello world!\n"
+end
